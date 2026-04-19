@@ -1,0 +1,68 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Matie.ViewModels"
+        xmlns:views="using:Matie.Views"
+        x:Class="Matie.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="Матье — лавка"
+        Width="1100"
+        Height="720"
+        MinWidth="1100"
+        MinHeight="720"
+        MaxWidth="1100"
+        MaxHeight="720"
+        WindowStartupLocation="CenterScreen"
+        SystemDecorations="None"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        Background="#F2F2F2">
+  <Grid RowDefinitions="Auto,*">
+    <Border Grid.Row="0"
+            Height="36"
+            Background="#DDDDDD"
+            BorderBrush="#BBBBBB"
+            BorderThickness="0,0,0,1"
+            PointerPressed="TitleBar_OnPointerPressed">
+      <Grid ColumnDefinitions="*,Auto">
+        <TextBlock Grid.Column="0"
+                   VerticalAlignment="Center"
+                   Margin="12,0,0,0"
+                   Foreground="#333333"
+                   FontSize="13"
+                   Text="Матье — онлайн-запись" />
+        <StackPanel Grid.Column="1"
+                    Orientation="Horizontal"
+                    Spacing="0">
+          <Button Width="46"
+                  Height="36"
+                  Padding="0"
+                  Background="Transparent"
+                  BorderThickness="0"
+                  Foreground="#333333"
+                  Content="_"
+                  Command="{Binding MinimizeCommand}" />
+          <Button Width="46"
+                  Height="36"
+                  Padding="0"
+                  Background="Transparent"
+                  BorderThickness="0"
+                  Foreground="#333333"
+                  Content="✕"
+                  Command="{Binding ExitApplicationCommand}" />
+        </StackPanel>
+      </Grid>
+    </Border>
+
+    <ContentControl Grid.Row="1"
+                    Content="{Binding MainContent}">
+      <ContentControl.DataTemplates>
+        <DataTemplate DataType="vm:LoginViewModel">
+          <views:LoginView />
+        </DataTemplate>
+        <DataTemplate DataType="vm:AppShellViewModel">
+          <views:AppShellView />
+        </DataTemplate>
+      </ContentControl.DataTemplates>
+    </ContentControl>
+  </Grid>
+</Window>

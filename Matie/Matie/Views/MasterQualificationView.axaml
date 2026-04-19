@@ -1,0 +1,22 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Matie.ViewModels"
+             x:Class="Matie.Views.MasterQualificationView"
+             x:DataType="vm:MasterQualificationViewModel">
+  <StackPanel Margin="24"
+              Spacing="12">
+    <TextBlock FontSize="18"
+               FontWeight="SemiBold"
+               Foreground="#222222"
+               Text="Повышение квалификации" />
+    <TextBlock Foreground="#555555"
+               TextWrapping="Wrap"
+               Text="{Binding Message}" />
+    <Button HorizontalAlignment="Left"
+            Padding="14,8"
+            Background="#C8C8C8"
+            BorderBrush="#BBBBBB"
+            Command="{Binding SubmitCommand}"
+            Content="Отправить заявку" />
+  </StackPanel>
+</UserControl>

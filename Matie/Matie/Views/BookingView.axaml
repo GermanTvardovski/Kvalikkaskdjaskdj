@@ -1,0 +1,68 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Matie.ViewModels"
+             xmlns:data="using:Matie.Data"
+             x:Class="Matie.Views.BookingView"
+             x:DataType="vm:BookingViewModel">
+  <ScrollViewer>
+    <StackPanel Margin="24"
+                Spacing="12">
+      <TextBlock FontSize="18"
+                 FontWeight="SemiBold"
+                 Foreground="#222222"
+                 Text="Запись на услугу" />
+      <TextBlock Foreground="#555555"
+                 TextWrapping="Wrap"
+                 Text="Выберите услугу, мастера, дату и время. Номер в очереди формируется автоматически для выбранного мастера и дня." />
+
+      <TextBlock Foreground="#333333"
+                 Text="Услуга" />
+      <ComboBox Width="400"
+                HorizontalAlignment="Left"
+                ItemsSource="{Binding Services}"
+                SelectedItem="{Binding SelectedService}">
+        <ComboBox.ItemTemplate>
+          <DataTemplate x:DataType="data:Service">
+            <TextBlock Text="{Binding Name}" />
+          </DataTemplate>
+        </ComboBox.ItemTemplate>
+      </ComboBox>
+
+      <TextBlock Foreground="#333333"
+                 Text="Мастер" />
+      <ComboBox Width="400"
+                HorizontalAlignment="Left"
+                ItemsSource="{Binding MastersForService}"
+                SelectedItem="{Binding SelectedMaster}">
+        <ComboBox.ItemTemplate>
+          <DataTemplate x:DataType="data:Master">
+            <TextBlock Text="{Binding Name}" />
+          </DataTemplate>
+        </ComboBox.ItemTemplate>
+      </ComboBox>
+
+      <TextBlock Foreground="#333333"
+                 Text="Дата" />
+      <DatePicker Width="220"
+                  HorizontalAlignment="Left"
+                  SelectedDate="{Binding SelectedDate}" />
+
+      <TextBlock Foreground="#333333"
+                 Text="Время (ЧЧ:ММ)" />
+      <TextBox Width="120"
+             HorizontalAlignment="Left"
+             Text="{Binding TimeText}" />
+
+      <Button HorizontalAlignment="Left"
+              Padding="14,8"
+              Background="#C8C8C8"
+              BorderBrush="#BBBBBB"
+              Command="{Binding BookCommand}"
+              Content="Записаться" />
+
+      <TextBlock Foreground="#1565C0"
+                 Text="{Binding ResultMessage}"
+                 TextWrapping="Wrap" />
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

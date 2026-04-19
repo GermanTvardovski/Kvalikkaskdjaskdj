@@ -1,0 +1,76 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Matie.ViewModels"
+             xmlns:models="using:Matie.Models"
+             xmlns:data="using:Matie.Data"
+             x:Class="Matie.Views.ReviewsView"
+             x:DataType="vm:ReviewsViewModel">
+  <Grid Margin="24"
+        RowDefinitions="Auto,*"
+        RowSpacing="16">
+    <StackPanel Grid.Row="0"
+                Spacing="10">
+      <TextBlock FontSize="18"
+                 FontWeight="SemiBold"
+                 Foreground="#222222"
+                 Text="Отзывы об услугах" />
+      <TextBlock Foreground="#555555"
+                 TextWrapping="Wrap"
+                 Text="Отзыв привязывается к услуге (в полном сценарии можно расширить до оценки мастера отдельным полем в БД)." />
+      <TextBlock Foreground="#333333"
+                 Text="Услуга" />
+      <ComboBox Width="400"
+                HorizontalAlignment="Left"
+                ItemsSource="{Binding Services}"
+                SelectedItem="{Binding SelectedService}">
+        <ComboBox.ItemTemplate>
+          <DataTemplate x:DataType="data:Service">
+            <TextBlock Text="{Binding Name}" />
+          </DataTemplate>
+        </ComboBox.ItemTemplate>
+      </ComboBox>
+      <TextBlock Foreground="#333333"
+                 Text="Оценка 1–5" />
+      <NumericUpDown Width="120"
+                       HorizontalAlignment="Left"
+                       Maximum="5"
+                       Minimum="1"
+                       Value="{Binding Rating}" />
+      <TextBlock Foreground="#333333"
+                 Text="Комментарий" />
+      <TextBox Height="80"
+               AcceptsReturn="True"
+               Text="{Binding Comment}"
+               TextWrapping="Wrap" />
+      <Button HorizontalAlignment="Left"
+              Padding="12,8"
+              Background="#C8C8C8"
+              BorderBrush="#BBBBBB"
+              Command="{Binding AddReviewCommand}"
+              Content="Отправить отзыв" />
+      <TextBlock Foreground="#1565C0"
+                 Text="{Binding StatusMessage}"
+                 TextWrapping="Wrap" />
+    </StackPanel>
+
+    <Border Grid.Row="1"
+            BorderBrush="#CCCCCC"
+            BorderThickness="1">
+      <ListBox ItemsSource="{Binding Items}">
+        <ListBox.ItemTemplate>
+          <DataTemplate x:DataType="models:ReviewRowModel">
+            <StackPanel Margin="8">
+              <TextBlock FontWeight="SemiBold"
+                         Text="{Binding ServiceName}" />
+              <TextBlock Foreground="#555555"
+                         Text="{Binding Author}" />
+              <TextBlock Text="{Binding Rating, StringFormat=Оценка: {0}}" />
+              <TextBlock Text="{Binding Comment}"
+                         TextWrapping="Wrap" />
+            </StackPanel>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+    </Border>
+  </Grid>
+</UserControl>

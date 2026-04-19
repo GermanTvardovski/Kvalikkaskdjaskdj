@@ -1,0 +1,191 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Matie.ViewModels"
+             xmlns:models="using:Matie.Models"
+             x:Class="Matie.Views.ServicesView"
+             x:DataType="vm:ServicesViewModel">
+  <Grid RowDefinitions="Auto,*,Auto"
+        Margin="16">
+    <ScrollViewer Grid.Row="0"
+                  HorizontalScrollBarVisibility="Auto"
+                  VerticalScrollBarVisibility="Disabled"
+                  Margin="0,0,0,12">
+      <WrapPanel Orientation="Horizontal">
+        <WrapPanel.Styles>
+          <Style Selector="Button">
+            <Setter Property="Margin" Value="0,0,8,8" />
+            <Setter Property="Padding" Value="12,6" />
+            <Setter Property="Background" Value="#D8D8D8" />
+            <Setter Property="BorderBrush" Value="#BBBBBB" />
+          </Style>
+        </WrapPanel.Styles>
+        <Button Command="{Binding ApplyDirectionFilterCommand}"
+                CommandParameter="Аниме"
+                Content="Аниме" />
+        <Button Command="{Binding ApplyDirectionFilterCommand}"
+                CommandParameter="Новый год"
+                Content="Новый год" />
+        <Button Command="{Binding ApplyDirectionFilterCommand}"
+                CommandParameter="Хэллоуин"
+                Content="Хэллоуин" />
+        <Button Command="{Binding ApplyDirectionFilterCommand}"
+                CommandParameter="Киберпанк"
+                Content="Киберпанк" />
+        <Button Command="{Binding ApplyDirectionFilterCommand}"
+                CommandParameter="Нуар"
+                Content="Нуар" />
+        <Button Command="{Binding ApplyCustomFilterCommand}"
+                Content="Кастом" />
+        <Button Command="{Binding ApplyCosplayFilterCommand}"
+                Content="Косплей" />
+        <Button Command="{Binding ApplyDirectionFilterCommand}"
+                CommandParameter="праздник"
+                Content="Праздники" />
+      </WrapPanel>
+    </ScrollViewer>
+
+    <Grid Grid.Row="1"
+          ColumnDefinitions="*,280">
+      <ListBox x:Name="ServiceList"
+               Grid.Column="0"
+               Background="Transparent"
+               BorderThickness="0"
+               ItemsSource="{Binding Services}"
+               ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+        <ListBox.Styles>
+          <Style Selector="ListBoxItem">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Background" Value="Transparent" />
+          </Style>
+        </ListBox.Styles>
+        <ListBox.ItemTemplate>
+          <DataTemplate x:DataType="models:ServiceCardModel">
+            <Border Margin="0,0,12,10"
+                    Padding="12"
+                    Background="White"
+                    BorderBrush="#CCCCCC"
+                    BorderThickness="1">
+              <Grid ColumnDefinitions="128,*">
+                <Border Grid.Column="0"
+                        Width="128"
+                        Height="128"
+                        Background="#ECECEC"
+                        BorderBrush="#CCCCCC"
+                        BorderThickness="1">
+                  <Image Width="128"
+                         Height="128"
+                         Stretch="UniformToFill"
+                         Source="{Binding ImageData, Converter={StaticResource ImageBytesToBitmapConverter}}" />
+                </Border>
+                <Grid Grid.Column="1"
+                      Margin="14,0,0,0"
+                      RowDefinitions="Auto,*,Auto,Auto,Auto">
+                  <TextBlock Grid.Row="0"
+                             FontSize="16"
+                             FontWeight="SemiBold"
+                             Foreground="#222222"
+                             Text="{Binding Name}" />
+                  <TextBlock Grid.Row="1"
+                             Margin="0,8,0,0"
+                             Foreground="#444444"
+                             Text="{Binding Description}"
+                             TextWrapping="Wrap" />
+                  <TextBlock Grid.Row="2"
+                             Margin="0,10,0,0"
+                             Foreground="#333333">
+                    <Run Text="Мастер: " />
+                    <Run Text="{Binding MastersSummary}" />
+                  </TextBlock>
+                  <TextBlock Grid.Row="3"
+                             Margin="0,4,0,0"
+                             Foreground="#333333">
+                    <Run Text="Коллекция: " />
+                    <Run Text="{Binding CategoryName}" />
+                  </TextBlock>
+                  <Button Grid.Row="4"
+                          Margin="0,10,0,0"
+                          HorizontalAlignment="Left"
+                          Padding="12,6"
+                          Background="#D8D8D8"
+                          BorderBrush="#BBBBBB"
+                          Command="{Binding #ServiceList.DataContext.EditServiceCommand}"
+                          CommandParameter="{Binding}"
+                          Content="Изменить"
+                          IsVisible="{Binding #ServiceList.DataContext.CanEditServices}" />
+                </Grid>
+              </Grid>
+            </Border>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+
+      <Border Grid.Column="1"
+              Padding="12"
+              Background="#ECECEC"
+              BorderBrush="#CCCCCC"
+              BorderThickness="1">
+        <StackPanel Spacing="10">
+          <TextBlock Foreground="#333333"
+                     Text="Поиск" />
+          <TextBox Text="{Binding SearchText}"
+                   Watermark="Название или описание" />
+          <Button HorizontalAlignment="Stretch"
+                  Padding="10,6"
+                  Background="#D0D0D0"
+                  BorderBrush="#BBBBBB"
+                  Command="{Binding SearchCommand}"
+                  Content="Найти" />
+
+          <TextBlock Margin="0,8,0,0"
+                     Foreground="#333333"
+                     Text="Коллекция" />
+          <ComboBox ItemsSource="{Binding CategoryOptions}"
+                    SelectedItem="{Binding SelectedCategoryFilter}">
+            <ComboBox.ItemTemplate>
+              <DataTemplate x:DataType="models:CategoryFilterItem">
+                <TextBlock Text="{Binding DisplayName}" />
+              </DataTemplate>
+            </ComboBox.ItemTemplate>
+          </ComboBox>
+
+          <Button Margin="0,8,0,0"
+                  HorizontalAlignment="Stretch"
+                  Padding="10,6"
+                  Background="#C8C8C8"
+                  BorderBrush="#BBBBBB"
+                  Command="{Binding AddServiceCommand}"
+                  Content="Добавить услугу"
+                  IsVisible="{Binding CanEditServices}" />
+
+          <StackPanel Margin="0,12,0,0"
+                      HorizontalAlignment="Stretch"
+                      Orientation="Horizontal"
+                      Spacing="8">
+            <Button Width="44"
+                    Height="36"
+                    Padding="0"
+                    Background="#D8D8D8"
+                    BorderBrush="#BBBBBB"
+                    Command="{Binding GoPreviousCommand}"
+                    Content="◀"
+                    IsEnabled="{Binding CanGoPrevious}" />
+            <Button Width="44"
+                    Height="36"
+                    Padding="0"
+                    Background="#D8D8D8"
+                    BorderBrush="#BBBBBB"
+                    Command="{Binding GoNextCommand}"
+                    Content="▶"
+                    IsEnabled="{Binding CanGoNext}" />
+          </StackPanel>
+        </StackPanel>
+      </Border>
+    </Grid>
+
+    <TextBlock Grid.Row="2"
+               Margin="0,12,0,0"
+               HorizontalAlignment="Center"
+               Foreground="#333333"
+               Text="{Binding PageIndicatorText}" />
+  </Grid>
+</UserControl>

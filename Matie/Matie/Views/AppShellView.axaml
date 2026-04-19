@@ -1,0 +1,131 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Matie.ViewModels"
+             xmlns:views="using:Matie.Views"
+             x:Class="Matie.Views.AppShellView"
+             x:DataType="vm:AppShellViewModel">
+  <Grid ColumnDefinitions="220,*">
+    <Border Grid.Column="0"
+            Background="#E8E8E8"
+            BorderBrush="#CCCCCC"
+            BorderThickness="0,0,1,0">
+      <ScrollViewer>
+        <StackPanel Margin="12"
+                    Spacing="8">
+          <Image Width="180"
+                 Height="56"
+                 Margin="0,0,0,4"
+                 HorizontalAlignment="Left"
+                 Stretch="Uniform"
+                 Source="/Assets/logo.png" />
+          <TextBlock Margin="0,0,0,8"
+                     FontWeight="SemiBold"
+                     Foreground="#333333"
+                     Text="{Binding WelcomeText}"
+                     TextWrapping="Wrap" />
+          <Button HorizontalAlignment="Stretch"
+                  HorizontalContentAlignment="Left"
+                  Padding="12,8"
+                  Background="#D0D0D0"
+                  BorderBrush="#BBBBBB"
+                  Command="{Binding OpenServicesCommand}"
+                  Content="Услуги и коллекции" />
+          <Button HorizontalAlignment="Stretch"
+                  HorizontalContentAlignment="Left"
+                  Padding="12,8"
+                  Background="Transparent"
+                  BorderBrush="#BBBBBB"
+                  Command="{Binding OpenBookingCommand}"
+                  Content="Запись к мастеру"
+                  IsVisible="{Binding ShowBooking}" />
+          <Button HorizontalAlignment="Stretch"
+                  HorizontalContentAlignment="Left"
+                  Padding="12,8"
+                  Background="Transparent"
+                  BorderBrush="#BBBBBB"
+                  Command="{Binding OpenBalanceCommand}"
+                  Content="Баланс"
+                  IsVisible="{Binding ShowBalance}" />
+          <Button HorizontalAlignment="Stretch"
+                  HorizontalContentAlignment="Left"
+                  Padding="12,8"
+                  Background="Transparent"
+                  BorderBrush="#BBBBBB"
+                  Command="{Binding OpenReviewsCommand}"
+                  Content="Отзывы"
+                  IsVisible="{Binding ShowReviews}" />
+          <Button HorizontalAlignment="Stretch"
+                  HorizontalContentAlignment="Left"
+                  Padding="12,8"
+                  Background="Transparent"
+                  BorderBrush="#BBBBBB"
+                  Command="{Binding OpenUsersAdminCommand}"
+                  Content="Пользователи"
+                  IsVisible="{Binding ShowUsersAdmin}" />
+          <Button HorizontalAlignment="Stretch"
+                  HorizontalContentAlignment="Left"
+                  Padding="12,8"
+                  Background="Transparent"
+                  BorderBrush="#BBBBBB"
+                  Command="{Binding OpenMasterLevelsCommand}"
+                  Content="Квалификация мастеров"
+                  IsVisible="{Binding ShowMasterLevels}" />
+          <Button HorizontalAlignment="Stretch"
+                  HorizontalContentAlignment="Left"
+                  Padding="12,8"
+                  Background="Transparent"
+                  BorderBrush="#BBBBBB"
+                  Command="{Binding OpenMasterScheduleCommand}"
+                  Content="Мои записи"
+                  IsVisible="{Binding ShowMasterSchedule}" />
+          <Button HorizontalAlignment="Stretch"
+                  HorizontalContentAlignment="Left"
+                  Padding="12,8"
+                  Background="Transparent"
+                  BorderBrush="#BBBBBB"
+                  Command="{Binding OpenMasterQualificationCommand}"
+                  Content="Заявка на повышение"
+                  IsVisible="{Binding ShowMasterQualification}" />
+          <Button Margin="0,16,0,0"
+                  HorizontalAlignment="Stretch"
+                  HorizontalContentAlignment="Left"
+                  Padding="12,8"
+                  Background="Transparent"
+                  BorderBrush="#BBBBBB"
+                  Command="{Binding LogoutCommand}"
+                  Content="Выйти из аккаунта" />
+        </StackPanel>
+      </ScrollViewer>
+    </Border>
+
+    <ContentControl Grid.Column="1"
+                    Content="{Binding SectionContent}">
+      <ContentControl.DataTemplates>
+        <DataTemplate DataType="vm:ServicesViewModel">
+          <views:ServicesView />
+        </DataTemplate>
+        <DataTemplate DataType="vm:BalanceViewModel">
+          <views:BalanceView />
+        </DataTemplate>
+        <DataTemplate DataType="vm:BookingViewModel">
+          <views:BookingView />
+        </DataTemplate>
+        <DataTemplate DataType="vm:ReviewsViewModel">
+          <views:ReviewsView />
+        </DataTemplate>
+        <DataTemplate DataType="vm:AdminUsersViewModel">
+          <views:AdminUsersView />
+        </DataTemplate>
+        <DataTemplate DataType="vm:MasterScheduleViewModel">
+          <views:MasterScheduleView />
+        </DataTemplate>
+        <DataTemplate DataType="vm:MasterQualificationViewModel">
+          <views:MasterQualificationView />
+        </DataTemplate>
+        <DataTemplate DataType="vm:MasterLevelViewModel">
+          <views:MasterLevelView />
+        </DataTemplate>
+      </ContentControl.DataTemplates>
+    </ContentControl>
+  </Grid>
+</UserControl>

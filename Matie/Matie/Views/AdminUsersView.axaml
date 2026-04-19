@@ -1,0 +1,99 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Matie.ViewModels"
+             xmlns:data="using:Matie.Data"
+             x:Class="Matie.Views.AdminUsersView"
+             x:DataType="vm:AdminUsersViewModel"
+             x:Name="Root">
+  <ScrollViewer>
+    <StackPanel Margin="24"
+                Spacing="16">
+      <TextBlock FontSize="18"
+                 FontWeight="SemiBold"
+                 Foreground="#222222"
+                 Text="Пользователи и роли" />
+      <TextBlock Foreground="#555555"
+                 TextWrapping="Wrap"
+                 Text="Смена роли сохраняется в PostgreSQL. Новые сотрудники получают выбранную роль (мастер, модератор и т.д.)." />
+
+      <ItemsControl ItemsSource="{Binding Users}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate x:DataType="data:User">
+            <Border Margin="0,0,0,8"
+                    Padding="10"
+                    Background="White"
+                    BorderBrush="#CCCCCC"
+                    BorderThickness="1">
+              <Grid ColumnDefinitions="140,200,200,100"
+                    RowDefinitions="Auto,Auto">
+                <TextBlock Grid.Row="0"
+                           Grid.Column="0"
+                           VerticalAlignment="Center"
+                           Text="{Binding Name}" />
+                <TextBlock Grid.Row="0"
+                           Grid.Column="1"
+                           VerticalAlignment="Center"
+                           Text="{Binding Email}" />
+                <ComboBox Grid.Row="0"
+                          Grid.Column="2"
+                          Width="180"
+                          VerticalAlignment="Center"
+                          ItemsSource="{Binding $parent[UserControl].DataContext.Roles}"
+                          SelectedItem="{Binding Role, Mode=TwoWay}">
+                  <ComboBox.ItemTemplate>
+                    <DataTemplate x:DataType="data:Role">
+                      <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                  </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Button Grid.Row="0"
+                        Grid.Column="3"
+                        Padding="8,4"
+                        Command="{Binding $parent[UserControl].DataContext.SaveUserRoleCommand}"
+                        CommandParameter="{Binding}"
+                        Content="Сохранить" />
+              </Grid>
+            </Border>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+
+      <TextBlock Margin="0,16,0,0"
+                 FontWeight="SemiBold"
+                 Foreground="#222222"
+                 Text="Добавить сотрудника" />
+      <TextBox Width="320"
+               HorizontalAlignment="Left"
+               Text="{Binding NewEmployeeName}"
+               Watermark="Имя" />
+      <TextBox Width="320"
+               HorizontalAlignment="Left"
+               Text="{Binding NewEmployeeEmail}"
+               Watermark="Email" />
+      <TextBox Width="320"
+               HorizontalAlignment="Left"
+               PasswordChar="*"
+               Text="{Binding NewEmployeePassword}"
+               Watermark="Пароль" />
+      <ComboBox Width="320"
+                HorizontalAlignment="Left"
+                ItemsSource="{Binding Roles}"
+                SelectedItem="{Binding NewEmployeeRole}">
+        <ComboBox.ItemTemplate>
+          <DataTemplate x:DataType="data:Role">
+            <TextBlock Text="{Binding Name}" />
+          </DataTemplate>
+        </ComboBox.ItemTemplate>
+      </ComboBox>
+      <Button HorizontalAlignment="Left"
+              Padding="12,8"
+              Background="#C8C8C8"
+              BorderBrush="#BBBBBB"
+              Command="{Binding CreateEmployeeCommand}"
+              Content="Создать учётную запись" />
+      <TextBlock Foreground="#1565C0"
+                 Text="{Binding StatusMessage}"
+                 TextWrapping="Wrap" />
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

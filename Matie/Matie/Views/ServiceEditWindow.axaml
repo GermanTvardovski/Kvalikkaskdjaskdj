@@ -1,0 +1,114 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Matie.ViewModels"
+        xmlns:models="using:Matie.Models"
+        xmlns:data="using:Matie.Data"
+        xmlns:conv="using:Matie.Converters"
+        x:Class="Matie.Views.ServiceEditWindow"
+        x:DataType="vm:ServiceEditViewModel"
+        Title="Услуга"
+        Width="520"
+        Height="680"
+        MinHeight="520"
+        WindowStartupLocation="CenterOwner"
+        Background="#F2F2F2"
+        CanResize="True">
+  <Window.Resources>
+    <conv:ImageBytesToBitmapConverter x:Key="ImageBytesToBitmapConverter" />
+  </Window.Resources>
+  <Grid Margin="16"
+        RowDefinitions="*,Auto">
+    <ScrollViewer Grid.Row="0"
+                  HorizontalScrollBarVisibility="Disabled"
+                  VerticalScrollBarVisibility="Auto">
+      <StackPanel Spacing="10">
+        <TextBlock Foreground="#333333"
+                   Text="Название" />
+        <TextBox Text="{Binding ServiceName}" />
+
+        <TextBlock Foreground="#333333"
+                   Text="Описание" />
+        <TextBox AcceptsReturn="True"
+                 Height="120"
+                 Text="{Binding Description}"
+                 TextWrapping="Wrap" />
+
+        <TextBlock Foreground="#333333"
+                   Text="Цена" />
+        <TextBox Text="{Binding PriceText}" />
+
+        <TextBlock Foreground="#333333"
+                   Text="Коллекция" />
+        <ComboBox ItemsSource="{Binding Categories}"
+                  SelectedItem="{Binding SelectedCategory}">
+          <ComboBox.ItemTemplate>
+            <DataTemplate x:DataType="data:Category">
+              <TextBlock Text="{Binding Name}" />
+            </DataTemplate>
+          </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <TextBlock Margin="0,8,0,0"
+                   Foreground="#333333"
+                   Text="Фото услуги" />
+        <Border Height="120"
+                Background="#ECECEC"
+                BorderBrush="#CCCCCC"
+                BorderThickness="1">
+          <Image MaxHeight="120"
+                 Stretch="Uniform"
+                 Source="{Binding SelectedImageBytes, Converter={StaticResource ImageBytesToBitmapConverter}}" />
+        </Border>
+        <StackPanel Margin="0,6,0,0"
+                    Orientation="Horizontal"
+                    Spacing="8">
+          <Button Padding="12,6"
+                  Background="#D0D0D0"
+                  BorderBrush="#BBBBBB"
+                  Command="{Binding PickPhotoCommand}"
+                  Content="Выбрать фото…" />
+          <Button Padding="12,6"
+                  Background="#E8E8E8"
+                  BorderBrush="#BBBBBB"
+                  Command="{Binding ClearPhotoCommand}"
+                  Content="Убрать фото" />
+        </StackPanel>
+
+        <TextBlock Margin="0,8,0,0"
+                   Foreground="#333333"
+                   Text="Мастера" />
+        <ItemsControl ItemsSource="{Binding Masters}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="models:MasterPickModel">
+              <CheckBox Margin="0,2,0,2"
+                        Content="{Binding Name}"
+                        IsChecked="{Binding IsSelected, Mode=TwoWay}" />
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </StackPanel>
+    </ScrollViewer>
+
+    <StackPanel Grid.Row="1"
+                Margin="0,12,0,0"
+                Spacing="10">
+      <TextBlock Foreground="#B00020"
+                 Text="{Binding ErrorMessage}"
+                 TextWrapping="Wrap" />
+      <StackPanel HorizontalAlignment="Right"
+                  Orientation="Horizontal"
+                  Spacing="8">
+        <Button Padding="14,6"
+                Background="#D8D8D8"
+                BorderBrush="#BBBBBB"
+                Command="{Binding CancelCommand}"
+                Content="Отмена" />
+        <Button Padding="14,6"
+                Background="#C8C8C8"
+                BorderBrush="#BBBBBB"
+                Command="{Binding SaveCommand}"
+                Content="Сохранить" />
+      </StackPanel>
+    </StackPanel>
+  </Grid>
+</Window>

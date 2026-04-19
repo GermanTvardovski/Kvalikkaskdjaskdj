@@ -1,0 +1,36 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Matie.ViewModels"
+             xmlns:data="using:Matie.Data"
+             x:Class="Matie.Views.MasterScheduleView"
+             x:DataType="vm:MasterScheduleViewModel">
+  <StackPanel Margin="24"
+              Spacing="12">
+    <TextBlock FontSize="18"
+               FontWeight="SemiBold"
+               Foreground="#222222"
+               Text="Записи на мастера" />
+    <TextBlock Foreground="#B00020"
+               Text="{Binding InfoMessage}"
+               TextWrapping="Wrap" />
+    <ListBox ItemsSource="{Binding Appointments}">
+      <ListBox.ItemTemplate>
+        <DataTemplate x:DataType="data:Appointment">
+          <Border Margin="0,0,0,8"
+                  Padding="10"
+                  Background="White"
+                  BorderBrush="#CCCCCC"
+                  BorderThickness="1">
+            <StackPanel Spacing="4">
+              <TextBlock FontWeight="SemiBold"
+                         Text="{Binding Service.Name}" />
+              <TextBlock Text="{Binding User.Name, StringFormat=Клиент: {0}}" />
+              <TextBlock Text="{Binding Date, StringFormat=Дата: {0:g}}" />
+              <TextBlock Text="{Binding QueueNumber, StringFormat=Номер в очереди: {0}}" />
+            </StackPanel>
+          </Border>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+  </StackPanel>
+</UserControl>

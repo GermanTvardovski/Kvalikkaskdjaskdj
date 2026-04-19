@@ -1,0 +1,35 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Matie.ViewModels"
+             x:Class="Matie.Views.BalanceView"
+             x:DataType="vm:BalanceViewModel">
+  <StackPanel Margin="24"
+              Spacing="12">
+    <TextBlock FontSize="18"
+               FontWeight="SemiBold"
+               Foreground="#222222"
+               Text="Баланс" />
+    <TextBlock Foreground="#333333">
+      <Run Text="Текущий баланс: " />
+      <Run Text="{Binding BalanceText}" />
+      <Run Text=" ₽" />
+    </TextBlock>
+    <TextBlock Foreground="#555555"
+               TextWrapping="Wrap"
+               Text="Пополнение имитирует оплату картой: сумма сразу зачисляется на счёт в приложении." />
+    <TextBlock Foreground="#333333"
+               Text="Сумма пополнения" />
+    <TextBox Text="{Binding TopUpAmountText}"
+             Width="200"
+             HorizontalAlignment="Left" />
+    <Button HorizontalAlignment="Left"
+            Padding="14,8"
+            Background="#C8C8C8"
+            BorderBrush="#BBBBBB"
+            Command="{Binding TopUpCommand}"
+            Content="Пополнить" />
+    <TextBlock Foreground="#2E7D32"
+               Text="{Binding StatusMessage}"
+               TextWrapping="Wrap" />
+  </StackPanel>
+</UserControl>

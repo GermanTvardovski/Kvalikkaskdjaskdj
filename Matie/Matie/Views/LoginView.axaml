@@ -1,0 +1,64 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Matie.ViewModels"
+             x:Class="Matie.Views.LoginView"
+             x:DataType="vm:LoginViewModel">
+  <Border Margin="40"
+          Padding="32"
+          HorizontalAlignment="Center"
+          VerticalAlignment="Center"
+          Background="White"
+          BorderBrush="#CCCCCC"
+          BorderThickness="1"
+          MinWidth="420">
+    <StackPanel Spacing="12">
+      <Image Width="200"
+             Height="64"
+             HorizontalAlignment="Center"
+             Stretch="Uniform"
+             Source="/Assets/logo.png" />
+      <TextBlock FontSize="20"
+                 FontWeight="SemiBold"
+                 Foreground="#222222"
+                 Text="Лавка «Матье»" />
+      <TextBlock Foreground="#555555"
+                 TextWrapping="Wrap"
+                 Text="Онлайн-запись и каталог услуг по коллекциям: аниме, праздники, косплей и кастом." />
+
+      <TextBlock IsVisible="{Binding IsRegisterMode}"
+                 Foreground="#333333"
+                 Text="Имя" />
+      <TextBox IsVisible="{Binding IsRegisterMode}"
+               Text="{Binding DisplayName}"
+               Watermark="Как к вам обращаться" />
+
+      <TextBlock Foreground="#333333"
+                 Text="Email" />
+      <TextBox Text="{Binding Email}"
+               Watermark="email@example.com" />
+
+      <TextBlock Foreground="#333333"
+                 Text="Пароль" />
+      <TextBox PasswordChar="*"
+               Text="{Binding Password}" />
+
+      <TextBlock Foreground="#B00020"
+                 Text="{Binding ErrorMessage}"
+                 TextWrapping="Wrap" />
+
+      <Button HorizontalAlignment="Stretch"
+              Padding="12,8"
+              Background="#C8C8C8"
+              BorderBrush="#BBBBBB"
+              Command="{Binding SubmitCommand}"
+              Content="Продолжить" />
+
+      <Button HorizontalAlignment="Stretch"
+              Padding="10,6"
+              Background="Transparent"
+              BorderBrush="#BBBBBB"
+              Command="{Binding ToggleRegisterModeCommand}"
+              Content="Переключить: вход / регистрация" />
+    </StackPanel>
+  </Border>
+</UserControl>

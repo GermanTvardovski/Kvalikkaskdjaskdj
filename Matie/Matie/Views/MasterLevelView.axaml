@@ -1,0 +1,47 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Matie.ViewModels"
+             xmlns:models="using:Matie.Models"
+             x:Class="Matie.Views.MasterLevelView"
+             x:DataType="vm:MasterLevelViewModel"
+             x:Name="Root">
+  <StackPanel Margin="24"
+              Spacing="12">
+    <TextBlock FontSize="18"
+               FontWeight="SemiBold"
+               Foreground="#222222"
+               Text="Квалификация мастеров (модератор)" />
+    <TextBlock Foreground="#555555"
+               TextWrapping="Wrap"
+               Text="Измените уровень квалификации мастера и сохраните. Это соответствует сценарию модератора." />
+    <TextBlock Foreground="#1565C0"
+               Text="{Binding StatusMessage}"
+               TextWrapping="Wrap" />
+    <ItemsControl ItemsSource="{Binding Rows}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate x:DataType="models:MasterLevelRowModel">
+          <Border Margin="0,0,0,8"
+                  Padding="10"
+                  Background="White"
+                  BorderBrush="#CCCCCC"
+                  BorderThickness="1">
+            <Grid ColumnDefinitions="160,*,120">
+              <TextBlock Grid.Column="0"
+                         VerticalAlignment="Center"
+                         Text="{Binding Name}" />
+              <TextBox Grid.Column="1"
+                       Margin="8,0"
+                       Text="{Binding Level}"
+                       Watermark="Уровень / квалификация" />
+              <Button Grid.Column="2"
+                      Padding="8,4"
+                      Command="{Binding $parent[UserControl].DataContext.SaveRowCommand}"
+                      CommandParameter="{Binding}"
+                      Content="Сохранить" />
+            </Grid>
+          </Border>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+  </StackPanel>
+</UserControl>
